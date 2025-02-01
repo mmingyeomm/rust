@@ -1,1 +1,1 @@
-/Users/chris/Documents/rust/minigrep/target/debug/minigrep: /Users/chris/Documents/rust/minigrep/src/lib.rs /Users/chris/Documents/rust/minigrep/src/main.rs
+/Users/mingyeom/vscodeProjects/rust/minigrep/target/debug/minigrep: /Users/mingyeom/vscodeProjects/rust/minigrep/src/lib.rs /Users/mingyeom/vscodeProjects/rust/minigrep/src/main.rs
