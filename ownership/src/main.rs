@@ -1,6 +1,18 @@
 fn main() {
 
+    let a: String = String::from("new");
 
-    
-    println!("Hello, world!");
+
+
+    takes_ownership(a);
+
+
+    println!("Hello, world! {}" , a);
+}
+
+
+fn takes_ownership(some_string: String){
+
+    println!("{}", some_string);
+
 }
