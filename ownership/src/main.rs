@@ -7,7 +7,6 @@ fn main() {
     takes_ownership(a);
 
 
-    println!("Hello, world! {}" , a);
 }
 
 

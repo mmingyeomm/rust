@@ -1,38 +1,40 @@
-pub fn add(left: u64, right: u64) -> u64 {
-    left + right
+
+#[derive(Debug)]
+struct Rectangle {
+    width: u8,
+    height: u8 
 }
 
-struct rectangle {
-    width:  u32, 
-    height: u32 
-}
+impl Rectangle {
 
-impl rectangle {
-    fn can_hold(&self, other: &rectangle) -> bool {
-        self.width >= other.width && self.height >= other.height
-
-
+    fn check_fit(&self, other: &Rectangle) -> bool{
+        self.width > other.width && self.height > other.height
     }
+
 }
+
+
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use super::*; 
 
     #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
+    fn larger_can_hold_smaller(){
+
+        let large = Rectangle{
+            width: 5,
+            height: 4,
+        };
+
+        let small = Rectangle{
+            width: 1,
+            height: 2,
+        };
+
+        assert_eq!(true, large.check_fit(&small));
+
 
     }
 
-    #[test]
-    fn fits(){
-        let rectangle1= rectangle{width: 5, height: 3}; 
-        let rectangle2= rectangle{width: 5, height: 3}; 
-        
-        let result = rectangle1.can_hold(&rectangle2);
-        assert_eq!(result , true)
-
-    }
 }

@@ -1,24 +1,42 @@
 use std::env;
+use std::fs;
 use std::process;
 
-use minigrep::Config;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
 
-    dbg!(&args);
-
-    let config = Config::build(&args).unwrap_or_else(|err| {
-        println!("Problem parsing arguments: {err}");
+    let config = Arguments::parse_args(&args).unwrap_or_else(|err| {
+        println!("Problem passing Arguments : {}" ,err);
         process::exit(1);
+
     });
 
+    let contents: String = fs::read_to_string(config.file).expect("something wrong with file");
 
-    if let Err(e) = minigrep::run(config) {
-        println!("Application error: {e}");
-        process::exit(1);
-    }
-
+    println!("{}", &contents);
 
 }
 
+struct Arguments {
+    query: String,
+    file: String
+}   
+
+
+impl Arguments{
+
+    fn parse_args(args: &[String])-> Result<Arguments, &str>{
+
+        if (args.len() < 3){
+            return Err("not enough arguments")
+         }
+
+        let query: String = args[1].clone();
+        let file: String = args[2].clone();
+
+        Ok(Arguments {query, file})
+
+    }
+
+}
