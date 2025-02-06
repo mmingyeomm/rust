@@ -42,17 +42,15 @@ impl Iterator for Counter {
 
 
 fn shoes_in_my_size(mysize: u32, shoes: Vec<Shoe> ) ->  Vec<Shoe> {
-    
+
+
     shoes.into_iter().filter(|x| x.size == mysize).collect()
-
-
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
 
-    
     #[test]
     fn filters_by_size() {
         let shoes = vec![
