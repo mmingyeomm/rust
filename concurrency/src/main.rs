@@ -1,30 +1,22 @@
-use std::{thread, time::Duration, };
-use std::sync::mpsc; 
+use std::sync::Mutex;
+use std::thread;
 
 fn main() {
+    let counter = Mutex::new(0);
+    let mut handles = vec![];
 
-    let handle= thread::spawn(|| {
+    for _ in 0..10 {
+        let handle = thread::spawn(move || {
+            let mut num = counter.lock().unwrap();
 
-        for i in 1..10 {
-            println!("number spawned thread: {}", i);
-            thread::sleep(Duration::from_millis(1));
-        }
+            *num += 1;
+        });
+        handles.push(handle);
+    }
 
-    }); 
-
-    handle.join(); 
+    for handle in handles {
+        handle.join().unwrap();
+    }
     
-
-    let (tx , rx ) = mpsc::channel(); 
-
-    thread::spawn(move || {
-        let msg = String::from("hi"); 
-        tx.send(msg).unwrap();
-    });
-
-    let received = rx.recv().unwrap(); 
-
-
-
-
+    println!("Result: {}", *counter.lock().unwrap());
 }
