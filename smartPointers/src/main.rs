@@ -1,37 +1,14 @@
-
-use std::{path::Display, rc::Rc};
-
-use List::{Cons , Nil}; 
-
-
-
 enum List {
-
-    Cons(i32, Rc<List>),
+    Cons(i32, Box<List>),
     Nil,
-
 }
 
-
-struct CustomSmartPointers {
-
-
-
-}
-
+use crate::List::{Cons, Nil};
 
 fn main() {
-
-    let a = Cons(5, Rc::new(Cons(10, Rc::new(Nil)))); 
-    let b = Cons(3, Rc::new(a));
-
-
-
-
-
-    let x :i32 = 5;
-
-    let list = Cons(1, Rc::new(Cons(2, Rc::new(Cons(3, Rc::new(Nil))))));
-
-
+    let a = Cons(5, Box::new(Cons(10, Box::new(Nil))));
+    let b = Cons(3, Box::new(a));
 }
+
+
+
