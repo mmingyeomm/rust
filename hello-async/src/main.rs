@@ -1,33 +1,29 @@
+extern crate trpl; // required for mdbook test
 
-use trpl::{Either, Html};
-
-async fn page_title(url: &str) -> (&str, Option<String>) {
-    let text = trpl::get(url).await.text().await;
-    let title = Html::parse(&text)
-        .select_first("title")
-        .map(|title| title.inner_html());
-    (url, title)
-}
-
-
+use std::{pin::pin, time::Duration};
+use trpl::{ReceiverStream, Stream, StreamExt};
 
 fn main() {
-    let args: Vec<String> = std::env::args().collect();
-
     trpl::run(async {
-        let title_fut_1 = page_title(&args[1]);
-        let title_fut_2 = page_title(&args[2]);
+        let mut messages =
+            pin!(get_messages().timeout(Duration::from_millis(200)));
 
-        let (url, maybe_title) =
-            match trpl::race(title_fut_1, title_fut_2).await {
-                Either::Left(left) => left,
-                Either::Right(right) => right,
-            };
-
-        println!("{url} returned first");
-        match maybe_title {
-            Some(title) => println!("Its page title is: '{title}'"),
-            None => println!("Its title could not be parsed."),
+        while let Some(result) = messages.next().await {
+            match result {
+                Ok(message) => println!("{message}"),
+                Err(reason) => eprintln!("Problem: {reason:?}"),
+            }
         }
     })
+}
+
+fn get_messages() -> impl Stream<Item = String> {
+    let (tx, rx) = trpl::channel();
+
+    let messages = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j"];
+    for message in messages {
+        tx.send(format!("Message: '{message}'")).unwrap();
+    }
+
+    ReceiverStream::new(rx)
 }
