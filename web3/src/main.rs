@@ -75,5 +75,7 @@ async fn main() -> Result<()> {
     );
 
     // The temporary directory will be automatically cleaned up when it goes out of scope
+    
     Ok(())
 }
+
