@@ -1,0 +1,6 @@
+1. Tokio에서 .await()가 실행되면 그 태스크에서의 작업이 멈춰지고 컨트롤이 런타임으로 넘어간다 
+2. Tokio 런타임 자체는 Task단위로 작업이 관리한다 
+3. Task가 Future단위로 async 함수 관리 async함수의 반환값이 Future이다 그것을 .await()로 실행 
+4. Mutex 이용해서 shared state관리할수 있다 근데 i/o작업 긴것은 message passing이 더 효과적이다 또, .await전에는 Mutex락을 풀어야한다. 
+5. tokio::sync::Mutex 도 있는데 얘는 .await에도 락을 들고있을수 있는데 이건 좀 비싸다 
+6. Message Passing 
